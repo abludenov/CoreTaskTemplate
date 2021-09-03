@@ -14,7 +14,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
 
-        try (Connection connection = Util.getConnection();
+        try (Connection connection = (Connection) Util.getSessionFactory();
              Statement statement = connection.createStatement()) {
 
             statement.executeUpdate(
@@ -34,7 +34,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void dropUsersTable() {
 
-        try (Connection connection = Util.getConnection();
+        try (Connection connection = (Connection) Util.getSessionFactory();
              Statement statement = connection.createStatement()) {
 
             statement.executeUpdate(
@@ -51,7 +51,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
         String query = "INSERT INTO users(name, lastName, age) VALUES(?, ?, ?);";
 
-        try (Connection connection = Util.getConnection();
+        try (Connection connection = (Connection) Util.getSessionFactory();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, name);
@@ -71,7 +71,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
         String query = "DELETE FROM users WHERE id = ?;";
 
-        try (Connection connection = Util.getConnection();
+        try (Connection connection = (Connection) Util.getSessionFactory();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setLong(1, id);
@@ -91,7 +91,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
         String query = "SELECT * FROM users";
 
-        try (Connection connection = Util.getConnection();
+        try (Connection connection = (Connection) Util.getSessionFactory();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
@@ -113,7 +113,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void cleanUsersTable() {
 
-        try (Connection connection = Util.getConnection();
+        try (Connection connection = (Connection) Util.getSessionFactory();
              Statement statement = connection.createStatement()) {
 
             statement.executeUpdate("TRUNCATE TABLE users");
